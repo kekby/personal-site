@@ -1,7 +1,24 @@
-import type { NextPage } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
+import { Post } from '../entity/post';
+import { getSortedPostsData } from '../lib/posts';
 
-const Home: NextPage = () => (
+interface StaticProps {
+  posts: Post[]
+}
+
+export const getStaticProps: GetStaticProps<StaticProps> = async () => {
+  const posts = getSortedPostsData();
+
+  return {
+    props: {
+      posts,
+    },
+  };
+};
+
+const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => (
   <>
     <Head>
       <title>
@@ -12,11 +29,14 @@ const Home: NextPage = () => (
     </Head>
 
     <main>
-      <h1 className="text-3xl font-bold underline">
-        Welcome to
-        {' '}
-        <a href="https://nextjs.org">Next.js!</a>
-      </h1>
+      {posts.map((p) => (
+        <article className="py-10" key={p.id}>
+          <h2 className="text-slate-300 hover:text-green-400 ease-in-out duration-300 text-3xl">
+            <Link href={`/posts/${p.id}`}>{p.title}</Link>
+          </h2>
+
+        </article>
+      ))}
     </main>
   </>
 );
