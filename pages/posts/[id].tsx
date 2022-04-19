@@ -1,4 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
+import HTMLRenderer from '../../components/HTMLRenderer/HTMLRenderer';
 import { Post as PostEntity } from '../../entities/post';
 import { getAllPostIds, getPostData, getPostDate } from '../../lib/posts';
 
@@ -38,14 +40,22 @@ const Post = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (!post) return null;
   return (
     <>
-      <h2 className="text-5xl text-center mb-8">{post.title}</h2>
-      <p className="text-sm text-slate-400 mb-4">
-        Опубликовано
-        {' '}
-        {post.date}
-      </p>
-      {/* eslint-disable-next-line react/no-danger  */}
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <Head>
+        <title>{post.title}</title>
+      </Head>
+      <div className="border-b border-slate-700 pb-8 mb-6">
+        <h2 className="text-5xl text-center mb-8">{post.title}</h2>
+        <p className="text-sm text-slate-400 mb-2">
+          Опубликовано
+          {' '}
+          {post.date}
+        </p>
+        <p className="text-slate-100 text-xl">
+          {post.metaDesc}
+        </p>
+      </div>
+
+      <HTMLRenderer as="section" html={post.content} />
     </>
   );
 };
