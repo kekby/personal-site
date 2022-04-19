@@ -4,5 +4,6 @@ export interface Post {
   title: string,
   tags: string[],
   metaTitle: string,
-  metaDesc: string
+  metaDesc: string,
+  content: string
 }

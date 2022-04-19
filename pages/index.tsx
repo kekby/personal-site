@@ -31,7 +31,7 @@ const Home = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => (
 
     <main>
       {posts.map((p) => (
-        <article className="py-10 border-b border-slate-700" key={p.id}>
+        <article className="pb-10 border-b border-slate-700" key={p.id}>
           <h2 className="text-3xl mb-2">
             <Link href={`/posts/${p.id}`}>
               {p.title}
